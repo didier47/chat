@@ -18,11 +18,26 @@ export class ContactosComponent implements OnInit {
     this.getContactos();
   }
 
+  addContacto(form?: NgForm) {
+    this.contactoService.postContacto(form.value)
+      .subscribe(res => {
+        this.getContactos();
+        this.resetForm(form);
+      });
+  }
+
   getContactos() {
     this.contactoService.getContactos()
       .subscribe(res => {
         this.contactoService.contactos = res as Contacto[];
       });
+  }
+
+  resetForm(form?: NgForm) {
+    if (form) {
+      form.reset();
+      this.contactoService.contactoToCreate = new Contacto();
+    }
   }
 
 }

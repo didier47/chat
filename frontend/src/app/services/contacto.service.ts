@@ -13,10 +13,17 @@ export class ContactoService {
   contactos: Contacto[];
   readonly URL_API = 'http://localhost:3000/api/contactos';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+    this.selectedContacto = new Contacto();
+    this.contactoToCreate = new Contacto();
+  }
 
   getContactos() {
     return this.http.get(this.URL_API);
+  }
+
+  postContacto(contacto: Contacto) {
+    return this.http.post(this.URL_API, contacto);
   }
 
 }

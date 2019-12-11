@@ -1,4 +1,4 @@
-<div class="col s3">
+<div class="col s4">
   <table class="centered">
     <thead>
       <tr>
@@ -12,5 +12,24 @@
       </tr>
     </tbody>
   </table>
-
+  <div class="card">
+    <div class="card-content">
+      <p class="center-align" style="font-weight: bold;">Crear contacto</p>
+      <form #contactoForm="ngForm" (ngSubmit)="addContacto(contactoForm)">
+        <input type="hidden" name="_id" #_id="ngModel" [(ngModel)]="contactoService.contactoToCreate._id">
+        <div class="row">
+          <div class="input-field col s12">
+            <input type="text" name="nombre" #name="ngModel" [(ngModel)]="contactoService.contactoToCreate.nombre"
+              placeholder="Escriba el nombre">
+          </div>
+          <div class="card-action">
+            <div class="input-field col s12">
+              <button class="btn left" (click)="resetForm(contactoForm)">Limpiar</button>
+              <button class="btn right">Guardar</button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
 </div>
