@@ -1,1 +1,16 @@
-<p>contactos works!</p>
+<div class="col s3">
+  <table class="centered">
+    <thead>
+      <tr>
+        <th>Seleccionar contacto</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let contacto of contactoService.contactos">
+        <td><a href="#">{{ contacto.nombre }}</a></td>
+      </tr>
+    </tbody>
+  </table>
+
+</div>
