@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 
+import { ChatsComponent } from '../chats/chats.component';
 import { ContactoService } from '../../services/contacto.service';
 import { NgForm } from '@angular/forms';
 import { Contacto } from 'src/app/models/contacto';
@@ -10,12 +11,26 @@ import { Contacto } from 'src/app/models/contacto';
   styleUrls: ['./contactos.component.css'],
   providers: [ContactoService]
 })
-export class ContactosComponent implements OnInit {
+export class ContactosComponent implements OnInit, AfterViewInit {
+
+  @ViewChild(ChatsComponent, { static: false }) chatComponent: ChatsComponent;
 
   constructor(private contactoService: ContactoService) { }
 
   ngOnInit() {
     this.getContactos();
+  }
+
+  ngAfterViewInit() {
+
+  }
+
+  selectContacto(contacto: Contacto) {
+    this.contactoService.selectedContacto = contacto;
+    if (this.chatComponent) {
+      this.chatComponent.getChats();
+      this.chatComponent.resetSelectedChat();
+    }
   }
 
   addContacto(form?: NgForm) {

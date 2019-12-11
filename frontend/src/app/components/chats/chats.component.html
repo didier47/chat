@@ -1,1 +1,38 @@
-<p>chats works!</p>
+<div class="row">
+  <div class="col s4">
+    <table class="centered">
+      <thead>
+        <tr>
+          <th>Chatea con</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let contactoChat of chatService.contactosChat">
+          <td><button class="btn-small" (click)="selectChatContacto(contactoChat)">{{ contactoChat.nombre }}</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div *ngIf="chatService.selectedChat._id != ''" class="col s8">
+    <div class="card" *ngFor="let mensaje of chatService.selectedChat.mensajes">
+      <div class="card-content">
+        {{ mensaje.enviadoPor.nombre }}: {{ mensaje.texto }}
+      </div>
+    </div>
+    <form #chatForm="ngForm" (ngSubmit)="enviarMensaje(chatForm)">
+      <div class="row">
+        <div class="input-field col s12">
+          <input type="text" name="mensaje" #mensaje="ngModel" [(ngModel)]="chatService.mensaje"
+            placeholder="Envía un mensaje">
+        </div>
+        <div class="card-action">
+          <div class="input-field col s12">
+            <button class="btn right">Enviar</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

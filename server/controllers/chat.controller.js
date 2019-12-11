@@ -14,16 +14,14 @@ chatController.getChats = async (req, res) => {
 }
 
 chatController.selectChatContacto = async (req, res) => {
-    const chat = await Chat.findOne({
-        'contactos': {
-            $in: [req.body.selectedContacto, req.body.contacto]
-        }
-    })
+    const selectedContacto = await Contacto.findById(req.params.selectedContacto_id)
+    const contacto = await Contacto.findById(req.params.contacto_id)
+    const chat = await Chat.findOne({ $and:[ {contactos: selectedContacto}, {contactos: contacto} ]})
     if (chat) {
         res.json(chat)
     } else {
         const chat = new Chat({
-            contactos: [req.body.selectedContacto, req.body.contacto],
+            contactos: [selectedContacto, contacto],
             mensajes: []
         });
         await chat.save()
@@ -32,11 +30,12 @@ chatController.selectChatContacto = async (req, res) => {
 }
 
 chatController.enviarMensaje = async (req, res) => {
-    const chat = await Chat.findById(req.body.selectedChat_id)
+    const chat = await Chat.findById(req.params.chat_id)
+    const contacto = await Contacto.findById(req.params.selectedContacto_id)
     const mensaje = {
-        texto: req.body.texto,
+        texto: req.body.mensaje,
         fecha: new Date(),
-        enviadoPor: req.body.selectedContacto
+        enviadoPor: contacto
     }
     chat.mensajes.push(mensaje)
     await chat.save()
